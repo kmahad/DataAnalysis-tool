@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse, Response
 from app.models.schemas import ExportFormat, ExportRequest
 from app.models.session import session_manager
 from app.routers.auth import get_current_user
-from app.services.exporter import export_to_csv, export_to_excel, export_to_html_report
+from app.services.exporter import export_to_csv, export_to_excel, export_to_html_report, export_to_powerpoint
 from app.services.scanner import scan_dataframe
 
 router = APIRouter(prefix="/api/export", tags=["export"])
@@ -54,6 +54,21 @@ async def export_data(
             scan_info=scan_info,
         )
         return HTMLResponse(content=html_content)
+
+    elif req.format == ExportFormat.powerpoint:
+        scan_info = scan_dataframe(session.df, session.session_id)
+        pptx_bytes = export_to_powerpoint(
+            session_id=session.session_id,
+            df=session.df,
+            filename=session.filename,
+            history=session.get_history(),
+            scan_info=scan_info,
+        )
+        return Response(
+            content=pptx_bytes,
+            media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            headers={"Content-Disposition": f"attachment; filename={filename_base}_report.pptx"},
+        )
 
     else:
         raise HTTPException(status_code=400, detail="Invalid export format")

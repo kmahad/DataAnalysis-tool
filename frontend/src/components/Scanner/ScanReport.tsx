@@ -22,54 +22,70 @@ export const ScanReport: React.FC = () => {
   const scoreColor = getScoreColor(scanReport.quality_score);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="animate-fade-in">
       {/* Top Banner: Score + Summary Stats */}
-      <div className="glass-panel glow-card" style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2.5rem', alignItems: 'center' }}>
-        {/* Animated Quality Score Circular Gauge */}
+      <div className="glass-panel glow-card" style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2.5rem', alignItems: 'center', borderTop: `3px solid ${scoreColor}` }}>
+        {/* Animated Quality Score Circular Gauge (Radar style) */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{
-            position: 'relative', width: '130px', height: '130px', borderRadius: '50%',
-            background: `conic-gradient(${scoreColor} ${scanReport.quality_score * 3.6}deg, rgba(255,255,255,0.06) 0deg)`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 0 30px ${scoreColor}40`
-          }}>
+          <div 
+            className="radar-glow"
+            style={{
+              position: 'relative', width: '130px', height: '130px', borderRadius: '50%',
+              background: `conic-gradient(${scoreColor} ${scanReport.quality_score * 3.6}deg, rgba(255,255,255,0.04) 0deg)`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 0 35px ${scoreColor}30`
+            }}
+          >
+            {/* Spinning outer cyber-orbit */}
             <div style={{
-              width: '104px', height: '104px', borderRadius: '50%', background: '#0c1220',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+              position: 'absolute', width: '146px', height: '146px', borderRadius: '50%',
+              border: `2px dashed ${scoreColor}50`, animation: 'spin-radar 15s linear infinite',
+              pointerEvents: 'none'
+            }} />
+            <div style={{
+              position: 'absolute', width: '154px', height: '154px', borderRadius: '50%',
+              border: `1px solid ${scoreColor}20`,
+              pointerEvents: 'none'
+            }} />
+            
+            <div style={{
+              width: '106px', height: '106px', borderRadius: '50%', background: '#050811',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              border: '1px solid rgba(255, 255, 255, 0.05)'
             }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: scoreColor }}>{scanReport.quality_score}</span>
-              <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.05em' }}>QUALITY SCORE</span>
+              <span style={{ fontSize: '2.25rem', fontWeight: 900, color: scoreColor, fontFamily: 'var(--font-mono)', lineHeight: 1 }}>{scanReport.quality_score}</span>
+              <span style={{ fontSize: '0.6rem', color: '#94a3b8', fontWeight: 800, letterSpacing: '0.08em', marginTop: '0.2rem' }}>DIAGNOSTIC</span>
             </div>
           </div>
         </div>
 
         {/* Key Metrics Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
-          <div style={{ background: 'rgba(15, 23, 42, 0.5)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>TOTAL ROWS</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#f8fafc', marginTop: '0.2rem' }}>
+          <div style={{ background: 'rgba(5, 8, 17, 0.6)', padding: '1.2rem 1rem', borderRadius: '12px', border: '1px solid rgba(0, 242, 255, 0.15)', boxShadow: 'inset 0 0 10px rgba(0,242,255,0.02)' }}>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.05em' }}>TOTAL ROWS</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f8fafc', marginTop: '0.3rem', fontFamily: 'var(--font-mono)' }}>
               {scanReport.total_rows.toLocaleString()}
             </div>
           </div>
 
-          <div style={{ background: 'rgba(15, 23, 42, 0.5)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>TOTAL COLUMNS</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#f8fafc', marginTop: '0.2rem' }}>
+          <div style={{ background: 'rgba(5, 8, 17, 0.6)', padding: '1.2rem 1rem', borderRadius: '12px', border: '1px solid rgba(0, 242, 255, 0.15)', boxShadow: 'inset 0 0 10px rgba(0,242,255,0.02)' }}>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.05em' }}>TOTAL COLUMNS</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f8fafc', marginTop: '0.3rem', fontFamily: 'var(--font-mono)' }}>
               {scanReport.total_columns}
             </div>
           </div>
 
-          <div style={{ background: 'rgba(15, 23, 42, 0.5)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>MISSING CELLS</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 700, color: scanReport.missing_percentage > 5 ? '#f43f5e' : '#10b981', marginTop: '0.2rem' }}>
-              {scanReport.missing_cells.toLocaleString()} ({scanReport.missing_percentage}%)
+          <div style={{ background: 'rgba(5, 8, 17, 0.6)', padding: '1.2rem 1rem', borderRadius: '12px', border: '1px solid rgba(0, 242, 255, 0.15)', boxShadow: 'inset 0 0 10px rgba(0,242,255,0.02)' }}>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.05em' }}>MISSING CELLS</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: scanReport.missing_percentage > 5 ? 'var(--accent-rose)' : 'var(--accent-emerald)', marginTop: '0.3rem', fontFamily: 'var(--font-mono)' }}>
+              {scanReport.missing_cells.toLocaleString()} <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>({scanReport.missing_percentage}%)</span>
             </div>
           </div>
 
-          <div style={{ background: 'rgba(15, 23, 42, 0.5)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>DUPLICATE ROWS</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 700, color: scanReport.duplicate_rows > 0 ? '#f59e0b' : '#10b981', marginTop: '0.2rem' }}>
-              {scanReport.duplicate_rows.toLocaleString()} ({scanReport.duplicate_percentage}%)
+          <div style={{ background: 'rgba(5, 8, 17, 0.6)', padding: '1.2rem 1rem', borderRadius: '12px', border: '1px solid rgba(0, 242, 255, 0.15)', boxShadow: 'inset 0 0 10px rgba(0,242,255,0.02)' }}>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.05em' }}>DUPLICATE ROWS</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: scanReport.duplicate_rows > 0 ? 'var(--accent-amber)' : 'var(--accent-emerald)', marginTop: '0.3rem', fontFamily: 'var(--font-mono)' }}>
+              {scanReport.duplicate_rows.toLocaleString()} <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>({scanReport.duplicate_percentage}%)</span>
             </div>
           </div>
         </div>

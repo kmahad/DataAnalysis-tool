@@ -253,6 +253,7 @@ class ExportFormat(str, Enum):
     csv = "csv"
     excel = "excel"
     html_report = "html_report"
+    powerpoint = "powerpoint"
 
 
 class ExportRequest(BaseModel):
