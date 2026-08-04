@@ -1,0 +1,14 @@
+id,name,age,department,salary,join_date,rating
+1,  Alice Smith  ,28,Engineering,85000.0,2021-03-15,4.5
+2,Bob Jones,34,Marketing,62000.0,2019-07-22,3.8
+3,Charlie Brown,45,Engineering,150000.0,2015-11-01,4.9
+4,  Diana Prince  ,29,Finance,,2020-01-10,4.2
+5,Evan Wright,,Sales,55000.0,2022-06-18,3.5
+6,Fiona Gallagher,31,Marketing,64000.0,2018-09-05,4.0
+7,George Clark,999,Engineering,92000.0,2017-04-12,2.1
+8,Hannah Abbott,26,Finance,58000.0,2023-02-01,4.7
+9,Ian Malcolm,52,Sales,-50000.0,2012-08-30,4.8
+10,Julia Roberts,33,Engineering,88000.0,2019-12-14,4.3
+1,  Alice Smith  ,28,Engineering,85000.0,2021-03-15,4.5
+11,Kevin Bacon,41,Marketing,,2016-05-20,3.9
+12,Laura Croft,27,Finance,71000.0,2022-11-11,4.6
